@@ -133,6 +133,27 @@ class Featured_Content {
 			'posts_per_page' => count( $post_ids ),
 		) );
 
+		// Re-order to match the order in $post_ids.
+		// Create an array mapping post ID to order number.
+		$i = 0;
+		$id_order = array();
+		foreach ($post_ids as $id) {
+			$id_order[$id] = $i++;
+		}
+
+		// Take the order number and create a new array mapping that
+		// order number to post.
+		$ordered_posts = array();
+		foreach ($featured_posts as $post) {
+			$idx = (int)$id_order[$post->ID];
+			$ordered_posts[$idx] = $post;
+		}
+
+		// Now order based on the key. array_values will return the
+		// posts in the desired order.
+		ksort($ordered_posts);
+		$featured_posts = array_values($ordered_posts);
+
 		return $featured_posts;
 	}
 
