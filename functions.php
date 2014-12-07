@@ -16,3 +16,5 @@ function wgom_twentyfourteen_setup() {
 }
 
 add_action('after_setup_theme', 'wgom_twentyfourteen_setup', 11);
+
+require get_template_directory() . '/inc/featured-content.php';
