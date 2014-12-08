@@ -176,31 +176,7 @@ class Featured_Content {
 		$featured_ids = get_transient( 'featured_content_ids' );
 
 		if ( false === $featured_ids ) {
-			$settings = self::get_setting();
-			$term     = get_term_by( 'name', $settings['tag-name'], 'post_tag' );
-
-			if ( $term ) {
-				// Query for featured posts.
-				$featured_ids = get_posts( array(
-					'fields'           => 'ids',
-					'numberposts'      => self::$max_posts,
-					'suppress_filters' => false,
-					'tax_query'        => array(
-						array(
-							'field'    => 'term_id',
-							'taxonomy' => 'post_tag',
-							'terms'    => $term->term_id,
-						),
-					),
-				) );
-			}
-
-			// Get sticky posts if no Featured Content exists.
-			if ( ! $featured_ids ) {
-				$featured_ids = self::get_sticky_posts();
-			}
-
-			set_transient( 'featured_content_ids', $featured_ids );
+			$featured_ids = self::wgom_featured_post_ids();
 		}
 
 		// Ensure correct format before return.
