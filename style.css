@@ -12,3 +12,64 @@ Text Domain: twentyfourteen-child
 This theme, like WordPress, is licensed under the GPL.
 Use it to make something cool, have fun, and share what you've learned with others.
 */
+
+/*
+ * Make site the full width.
+ */
+.site {
+    max-width: 100%;
+}
+
+.site-header {
+    max-width: 100%;
+}
+
+/*
+ * Some things
+ */
+/*
+span + .edit-link:before {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+ */
+
+.hentry {
+    max-width: 100%;
+}
+
+.site-content .entry-header,
+.site-content .entry-content,
+.site-content .entry-summary,
+.site-content .entry-meta,
+.page-content {
+       max-width: 100%;
+}
+
+
+
+/*
+ * Decrease font size some.
+ */
+textarea {
+    font-size: 14px;
+}
+
+/*
+ * FIXME: More tags?
+ */
+var, samp, pre {
+    font-size: 14px;
+}
+
+blockquote {
+    font-size: 17px;
+    margin-bottom: 0px;
+    margin-top: 16px;
+}
+
+blockquote cite,
+blockquote small {
+    font-size: 14px;
+}
