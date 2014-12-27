@@ -73,3 +73,15 @@ blockquote cite,
 blockquote small {
     font-size: 14px;
 }
+
+/**
+ * Colors.
+ * -----------------------------------------------------------------------------
+ */
+.post-thumbnail {
+	background: none;
+}
+
+.featured-content {
+	background: #000;
+}
