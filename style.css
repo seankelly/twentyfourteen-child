@@ -39,6 +39,58 @@ Use it to make something cool, have fun, and share what you've learned with othe
     max-width: 100%;
 }
 
+/**
+ * Padding changes.
+ * -----------------------------------------------------------------------------
+ * Reduce most of the padding, but increase it in other places to improve
+ * clarity.
+ */
+
+p {
+    margin-bottom: 10px;
+}
+
+.comment-list article {
+    margin-bottom: 6px;
+    padding-top: 6px;
+}
+
+.comment-list .children {
+    margin-left: 40px;
+}
+
+.comment-list .reply {
+    margin-top: 6px;
+}
+
+/*
+ * On single pages, don't cover up the bottom of the featured images. On
+ * the main page, don't cover up the end (including tags!) of the previous
+ * post's content.
+ */
+.full-width .site-content .has-post-thumbnail .entry-header:first-child,
+.full-width.singular .site-content .hentry.has-post-thumbnail:first-child,
+.full-width.home .site-content .hentry.has-post-thumbnail:first-child {
+    margin-top: -48px;
+}
+
+.full-width .site-content .has-post-thumbnail .entry-header,
+.full-width.singular .site-content .hentry.has-post-thumbnail,
+.full-width.home .site-content .hentry.has-post-thumbnail {
+    margin-top: 0px;
+}
+
+.full-width.singular .site-content .hentry.has-post-thumbnail:first-child,
+.full-width.home .site-content .hentry.has-post-thumbnail:first-child {
+    margin-top: -72px;
+}
+
+.full-width.singular .site-content .hentry.has-post-thumbnail,
+.full-width.home .site-content .hentry.has-post-thumbnail {
+    margin-top: 0px;
+}
+
+
 /*
  * Some things
  */
