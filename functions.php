@@ -17,6 +17,48 @@ function wgom_twentyfourteen_setup() {
 
 add_action('after_setup_theme', 'wgom_twentyfourteen_setup', 11);
 
+/*
+ * Overrides of twentyfourteen_* functions.
+ * -----------------------------------------------------------------------------
+ */
+/***
+ * This function copied straight from Twenty Fourteen.
+ */
+/**
+ * Display navigation to next/previous post when applicable.
+ *
+ * @since Twenty Fourteen 1.0
+ */
+function twentyfourteen_post_nav() {
+        // Don't print empty markup if there's nowhere to navigate.
+        $previous = ( is_attachment() ) ? get_post( get_post()->post_parent ) : get_adjacent_post( false, '', true );
+        $next     = get_adjacent_post( false, '', false );
+
+        if ( ! $next && ! $previous ) {
+                return;
+        }
+
+        ?>
+        <nav class="navigation post-navigation" role="navigation">
+                <h1 class="screen-reader-text"><?php _e( 'Post navigation', 'twentyfourteen' ); ?></h1>
+                <div class="nav-links">
+                        <?php
+                        if ( is_attachment() ) :
+                                previous_post_link( '%link', __( '<span class="meta-nav">Published In</span>%title', 'twentyfourteen' ) );
+                        else :
+                                previous_post_link( '%link', __( '<span class="meta-nav">Previous Post</span>%title', 'twentyfourteen' ) );
+                                next_post_link( '%link', __( '<span class="meta-nav">Next Post</span>%title', 'twentyfourteen' ) );
+                        endif;
+                        ?>
+                </div><!-- .nav-links -->
+        </nav><!-- .navigation -->
+        <?php
+}
+
+/*
+ * WGOM-specific functions.
+ * -----------------------------------------------------------------------------
+ */
 
 /*
  * Add default featured images to posts in certain categories.
