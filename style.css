@@ -52,17 +52,11 @@ span + .edit-link:before {
 /*
  * Decrease font size some.
  */
-textarea {
-    font-size: 14px;
-}
-
-/*
- * FIXME: More tags?
- */
 body,
 blockquote cite,
 blockquote small,
 pre,
+textarea,
 samp,
 var {
     font-size: 14px;
