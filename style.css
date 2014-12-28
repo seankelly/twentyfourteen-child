@@ -79,3 +79,51 @@ blockquote {
 .featured-content {
     background: #000;
 }
+
+/**
+ * Featured post alignment.
+ * -----------------------------------------------------------------------------
+ */
+
+@media screen and (min-width: 673px) {
+    .grid .featured-content .hentry {
+        float: left;
+        width: 50%;
+    }
+
+    .grid .featured-content .hentry:nth-child( 2n+1 ) {
+        clear: both;
+    }
+}
+
+@media screen and (min-width: 846px) {
+    .grid .featured-content .hentry {
+        width: 33.3333333%;
+    }
+
+    .grid .featured-content .hentry:nth-child( 2n+1 ) {
+        clear: none;
+    }
+
+    .grid .featured-content .hentry:nth-child( 3n+1 ) {
+        clear: both;
+    }
+}
+
+@media screen and (min-width: 1320px) {
+    .grid .featured-content .hentry {
+        width: 25%;
+    }
+
+    .grid .featured-content .hentry:nth-child( 2n+1 ) {
+        clear: none;
+    }
+
+    .grid .featured-content .hentry:nth-child( 3n+1 ) {
+        clear: none;
+    }
+
+    .grid .featured-content .hentry:nth-child( 4n+1 ) {
+        clear: both;
+    }
+}
