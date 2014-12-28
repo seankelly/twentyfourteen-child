@@ -40,7 +40,7 @@ Use it to make something cool, have fun, and share what you've learned with othe
 }
 
 /**
- * Padding changes.
+ * Spacing changes.
  * -----------------------------------------------------------------------------
  * Reduce most of the padding, but increase it in other places to improve
  * clarity.
@@ -88,6 +88,28 @@ p {
 .full-width.singular .site-content .hentry.has-post-thumbnail,
 .full-width.home .site-content .hentry.has-post-thumbnail {
     margin-top: 0px;
+}
+
+
+.nav-links {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.post-navigation a,
+.image-navigation .previous-image,
+.image-navigation .next-image {
+    padding: 11px 0 12px;
+    width: 50%;
+}
+
+.post-navigation a[rel="prev"] {
+    float: left;
+    text-align: left;
+}
+
+.post-navigation a[rel="next"] {
+    float: right;
+    text-align: right;
 }
 
 

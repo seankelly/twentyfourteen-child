@@ -50,6 +50,7 @@ function twentyfourteen_post_nav() {
                                 next_post_link( '%link', __( '<span class="meta-nav">Next Post</span>%title', 'twentyfourteen' ) );
                         endif;
                         ?>
+                        <div style="clear:both;"></div>
                 </div><!-- .nav-links -->
         </nav><!-- .navigation -->
         <?php
