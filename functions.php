@@ -193,8 +193,33 @@ function wgom_set_post_featured_image($postid) {
 	}
 }
 
+function wgom_head() {
+?>
+	<link rel="icon" href="//wgom.org/favicon.ico" />
+<?php
+}
+
+function wgom_footer() {
+?>
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-22892586-1']);
+_gaq.push(['_setDomainName', 'wgom.org']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+<?php
+}
+
 add_action('after_setup_theme', 'wgom_twentyfourteen_setup', 11);
 add_action('publish_post', 'wgom_set_post_featured_image');
 add_action('wp_enqueue_scripts', 'enqueue_parent_theme_style');
+add_action('wp_footer', 'wgom_footer');
+add_action('wp_head', 'wgom_head');
 
 require get_stylesheet_directory() . '/inc/featured-content.php';
