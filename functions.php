@@ -1,6 +1,5 @@
 <?php
 
-add_action('wp_enqueue_scripts', 'enqueue_parent_theme_style');
 function enqueue_parent_theme_style() {
 	wp_enqueue_style('parent-style', get_template_directory_uri() . '/style.css');
 }
@@ -15,7 +14,6 @@ function wgom_twentyfourteen_setup() {
 	));
 }
 
-add_action('after_setup_theme', 'wgom_twentyfourteen_setup', 11);
 
 /*
  * Overrides of twentyfourteen_* functions.
@@ -194,6 +192,9 @@ function wgom_set_post_featured_image($postid) {
 		add_post_meta($postid, '_thumbnail_id', $image_id, true);
 	}
 }
+
+add_action('after_setup_theme', 'wgom_twentyfourteen_setup', 11);
 add_action('publish_post', 'wgom_set_post_featured_image');
+add_action('wp_enqueue_scripts', 'enqueue_parent_theme_style');
 
 require get_stylesheet_directory() . '/inc/featured-content.php';
