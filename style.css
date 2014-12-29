@@ -116,14 +116,14 @@ p {
 /*
  * Some things
  */
-/*
-span + .edit-link:before {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.featured-content img.overlay {
+    position: absolute;
+    top: auto;
+    left: auto;
+    right: 0px;
+    bottom: 0px;
+    max-width: 75%;
 }
- */
-
 
 
 /*
