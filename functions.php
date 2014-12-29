@@ -320,6 +320,10 @@ function wgom_get_ratings_text() {
 	}
 }
 
+function wgom_header_image($header_url) {
+	return '';
+}
+
 function wgom_head() {
 ?>
 	<link rel="icon" href="//wgom.org/favicon.ico" />
@@ -345,6 +349,7 @@ _gaq.push(['_trackPageview']);
 
 add_action('after_setup_theme', 'wgom_twentyfourteen_setup', 11);
 add_action('publish_post', 'wgom_set_post_featured_image');
+add_action('theme_mod_header_image', 'wgom_header_image');
 add_action('wp_enqueue_scripts', 'enqueue_parent_theme_style');
 add_action('wp_footer', 'wgom_footer');
 add_action('wp_head', 'wgom_head');
