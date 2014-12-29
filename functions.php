@@ -193,6 +193,133 @@ function wgom_set_post_featured_image($postid) {
 	}
 }
 
+/**
+ * This function exists to link to remote images that I don't want to attach to
+ * the post.
+ * @return string Image URL.
+ */
+
+function wgom_get_category_featured_image($categories) {
+	foreach ($categories as $c) {
+		$post = get_post();
+		if (intval($c) === 22) {
+			// A Video post. Hunt for the first URL matching
+			// youtube's v=CODE. Grab the code and use that to get
+			// the 0.jpg.
+			$image = '';
+			preg_match('/(?:youtu.be\/|v=)([\w-]+)/', $post->post_content, $videos);
+			if (count($videos) > 0) {
+				// Since the image is on youtube's site, return
+				// from here rather than continuing.
+				$video_id = $videos[1];
+				$image = "//i3.ytimg.com/vi/$video_id/0.jpg";
+				return $image;
+			}
+			break;
+		}
+	}
+}
+
+function wgom_get_featured_image() {
+	// This is the usual code that gets executed.
+	if ( has_post_thumbnail() ) {
+		if ( 'grid' == get_theme_mod( 'featured_content_layout' ) )
+			the_post_thumbnail();
+		else
+			the_post_thumbnail( 'twentyfourteen-full-width' );
+	}
+	else {
+		$all_categories = get_the_category();
+		$categories = array();
+		foreach ($all_categories as $cat) {
+			$categories[] = intval($cat->term_id);
+		}
+
+		// This is the WGOM extension part.
+		$image_uri = wgom_get_category_featured_image($categories);
+		if (!empty($image_uri)) {
+			echo '<img class="attachment-post-thumbnail wp-post-image" width="372" height="372" src="' . $image_uri . '" />';
+		}
+	}
+
+	wgom_get_featured_overlay();
+}
+
+function wgom_get_featured_overlay() {
+	// Check for certain tags to overlay another image.
+	$the_tags = get_the_tags();
+	$tags = array();
+	if (!empty($the_tags)) {
+		foreach ($the_tags as $t) {
+			$image = '';
+			switch ($t->name) {
+				case 'Guest DJ':
+					$image = '<img class="overlay" width="249" height="71" src="/wp-content/uploads/2013/12/guest-dj.jpg" />';
+					break;
+				case 'Theme Week':
+					$image = '<img class="overlay" src="/wp-content/uploads/2014/06/TmWk.png" />';
+					break;
+				case 'e-6 bait':
+					$image = '<img class="overlay" src="/wp-content/uploads/2014/01/e-6-bait.jpg" />';
+					break;
+				case 'MLB.TV Free Game Of The Day':
+					$image = '<img class="overlay" src="/wp-content/uploads/2014/08/FGotD.png" />';
+					break;
+				case 'new music':
+					$image = '<img class="overlay" src="/wp-content/uploads/2014/08/NM.png" />';
+					break;
+				case 'SXSW':
+				case 'SXSW 2014':
+					$image = '<img class="overlay" src="/wp-content/uploads/2014/03/SXSW.png" />';
+					break;
+			}
+
+			if (!empty($image)) {
+				echo $image;
+			}
+		}
+	}
+}
+
+/*
+ * Get the ratings text for any post in a valid category.
+ */
+function wgom_get_ratings_text() {
+	$all_categories = get_the_category();
+	$valid_category = false;
+	foreach ($all_categories as $cat) {
+		if (intval($cat->term_id) === 22) {
+			$valid_category = true;
+			break;
+		}
+	}
+	if ($valid_category === false) {
+		return;
+	}
+
+	$post_data = get_post_custom();
+	if (is_array($post_data)) {
+		$ratings_text = '';
+
+		$ratings_users = array_key_exists('ratings_users', $post_data) ? intval($post_data['ratings_users'][0]) : 0;
+		$ratings_score = array_key_exists('ratings_score', $post_data) ? intval($post_data['ratings_score'][0]) : 0;
+
+		if ($ratings_users === 0) {
+			$ratings_text = ' Rate it!';
+		}
+		else if ($ratings_users < 3) {
+			$ratings_text = " $ratings_users ratings";
+		}
+		else {
+			$ratings_avg = $ratings_score / $ratings_users;
+			$avg_text = sprintf("%.1f", $ratings_avg);
+			$ratings_text = " $ratings_users ratings: $avg_text avg";
+		}
+
+		return $ratings_text;
+	}
+}
+
 function wgom_head() {
 ?>
 	<link rel="icon" href="//wgom.org/favicon.ico" />
