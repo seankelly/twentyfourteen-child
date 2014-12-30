@@ -63,6 +63,11 @@ p {
     margin-top: 6px;
 }
 
+#site-header img {
+    display: block;
+    margin: auto;
+}
+
 /*
  * On single pages, don't cover up the bottom of the featured images. On
  * the main page, don't cover up the end (including tags!) of the previous
@@ -222,9 +227,11 @@ blockquote {
     background: none;
 }
 
-.featured-content {
+.featured-content,
+#site-header {
     background: #000;
 }
+
 
 /**
  * Featured post alignment.
