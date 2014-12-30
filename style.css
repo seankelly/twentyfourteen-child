@@ -17,19 +17,11 @@ Use it to make something cool, have fun, and share what you've learned with othe
  * Make site the full width.
  * -----------------------------------------------------------------------------
  */
-.site {
-    max-width: 100%;
-}
-
-.site-header {
-    max-width: 100%;
-}
-
-.hentry {
-    max-width: 100%;
-}
 
 .comments-area,
+.hentry,
+.site,
+.site-header,
 .site-content .entry-header,
 .site-content .entry-content,
 .site-content .entry-summary,
