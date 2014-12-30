@@ -114,7 +114,7 @@ p {
 
 
 /*
- * Some things
+ * Additions to the theme.
  */
 .featured-content img.overlay {
     position: absolute;
@@ -123,6 +123,22 @@ p {
     right: 0px;
     bottom: 0px;
     max-width: 75%;
+}
+
+.site-footer .jump-top:before {
+    color: #fff;
+    content: '\f435';
+    font-size: 20px;
+}
+
+.site-footer .jump-top {
+    -webkit-font-smoothing: antialiased;
+    //display: inline-block;
+    font: normal 16px/1 Genericons;
+    text-align: center;
+    text-decoration: inherit;
+    vertical-align: text-bottom;
+    width: 48px;
 }
 
 
