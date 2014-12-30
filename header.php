@@ -48,6 +48,10 @@
 				<a href="#search-container" class="screen-reader-text"><?php _e( 'Search', 'twentyfourteen' ); ?></a>
 			</div>
 
+			<a href="#get-recent-comments">
+				<div class="comments-jump"></div>
+			</a>
+
 			<nav id="primary-navigation" class="site-navigation primary-navigation" role="navigation">
 				<button class="menu-toggle"><?php _e( 'Primary Menu', 'twentyfourteen' ); ?></button>
 				<a class="screen-reader-text skip-link" href="#content"><?php _e( 'Skip to content', 'twentyfourteen' ); ?></a>

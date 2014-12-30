@@ -125,6 +125,59 @@ p {
     max-width: 75%;
 }
 
+.comments-jump:before {
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font: normal 16px/1 Genericons;
+    text-decoration: inherit;
+    vertical-align: text-bottom;
+}
+
+.comments-jump {
+    background-color: #aa0000;
+    cursor: pointer;
+    float: right;
+    height: 48px;
+    margin-right: 0;
+    text-align: center;
+    width: 48px;
+}
+
+.comments-jump:hover,
+.comments-jump.active {
+    background-color: #c71d1d;
+}
+
+.comments-jump:before {
+    color: #fff;
+    content: '\f300';
+    font-size: 20px;
+    margin-top: 14px;
+}
+
+.comments-jump .screen-reader-text {
+    /* Avoid a horizontal scrollbar when the site has a long menu */
+    left: 5px;
+}
+
+@media screen and (min-width: 673px) {
+    .comments-jump {
+        margin-right: 0;
+    }
+}
+
+@media screen and (min-width: 783px) {
+    .comments-jump {
+        margin-right: 0;
+    }
+}
+
+@media print {
+    .comments-jump {
+        display: none;
+    }
+}
+
 .site-footer .jump-top:before {
     color: #fff;
     content: '\f435';
