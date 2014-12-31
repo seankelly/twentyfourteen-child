@@ -32,6 +32,26 @@ Use it to make something cool, have fun, and share what you've learned with othe
 }
 
 /**
+ * Make the masthead stay fixed.
+ * -----------------------------------------------------------------------------
+ */
+
+@media screen and (min-width: 783px) {
+    .masthead-fixed .site-header {
+        position: relative;
+        top: auto;
+    }
+
+    .admin-bar.masthead-fixed .site-header {
+        top: auto;
+    }
+
+    .masthead-fixed .site-main {
+        margin-top: 0px;
+    }
+}
+
+/**
  * Spacing changes.
  * -----------------------------------------------------------------------------
  * Reduce most of the padding, but increase it in other places to improve
