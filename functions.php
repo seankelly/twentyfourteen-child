@@ -362,7 +362,7 @@ function wgom_footer_timer() {
 }
 
 add_action('after_setup_theme', 'wgom_twentyfourteen_setup', 11);
-add_action('publish_post', 'wgom_set_post_featured_image');
+//add_action('publish_post', 'wgom_set_post_featured_image');
 add_action('twentyfourteen_credits', 'wgom_footer_timer');
 add_action('wp_enqueue_scripts', 'enqueue_parent_theme_style');
 add_action('wp_footer', 'wgom_footer');
