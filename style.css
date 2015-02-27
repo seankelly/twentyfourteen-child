@@ -223,6 +223,10 @@ p {
     width: 48px;
 }
 
+.thread-odd {
+    background-color: #f7f7f7;
+}
+
 
 /*
  * Decrease font size some.
