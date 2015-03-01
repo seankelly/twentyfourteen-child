@@ -260,6 +260,10 @@ blockquote {
     background: #000;
 }
 
+.comment-author a {
+    color: #a00;
+}
+
 
 /**
  * Featured post alignment.
