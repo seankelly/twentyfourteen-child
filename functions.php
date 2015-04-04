@@ -272,6 +272,9 @@ function wgom_get_featured_overlay() {
 				case 'SXSW 2014':
 					$image = '<img class="overlay" src="/wp-content/uploads/2014/03/SXSW.png" />';
 					break;
+				case 'SXSW 2015':
+					$image = '<img class="overlay" src="/wp-content/uploads/2015/04/SXSW-2015.png" />';
+					break;
 			}
 
 			if (!empty($image)) {
