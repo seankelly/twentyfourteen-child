@@ -331,6 +331,16 @@ function wgom_filter_add_ratings($content) {
 	return $content;
 }
 
+// From http://wordpress.stackexchange.com/questions/105942/embedding-youtube-video-on-comments.
+// Allow special automatic embedding features that happen in posts to also
+// happen in comments.
+function wgom_filter_oembed_comments($comment) {
+	add_filter('embed_oembed_discover', '__return_false', 999);
+	$comment = $GLOBALS['wp_embed']->autoembed($comment);
+	remove_filter('embed_oembed_discover', '__return_false', 999);
+	return $comment;
+}
+
 function wgom_head() {
 ?>
 	<link rel="icon" href="//wgom.org/favicon.ico" />
@@ -369,6 +379,7 @@ add_action('twentyfourteen_credits', 'wgom_footer_timer');
 add_action('wp_enqueue_scripts', 'enqueue_parent_theme_style');
 add_action('wp_footer', 'wgom_footer');
 add_action('wp_head', 'wgom_head');
+add_filter('comment_text', 'wgom_filter_oembed_comments', 0);
 add_filter('the_content', 'wgom_filter_add_ratings');
 
 require get_stylesheet_directory() . '/inc/featured-content.php';
