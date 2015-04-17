@@ -92,6 +92,21 @@ p {
     margin: 20px auto 20px;
 }
 
+// Add some rules for embedding the video of the day.
+article.category-wgom-videos > a.post-thumbnail {
+    padding-top: 0px;
+}
+
+.featured-content .post-thumbnail iframe {
+    left: 0px;
+    position: absolute;
+    top: 0px;
+}
+
+.post-thumbnail iframe {
+    height: auto;
+}
+
 /*
  * On single pages, don't cover up the bottom of the featured images. On
  * the main page, don't cover up the end (including tags!) of the previous

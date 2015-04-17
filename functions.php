@@ -209,11 +209,9 @@ function wgom_get_category_featured_image($categories) {
 			$image = '';
 			preg_match('/(?:youtu.be\/|v=)([\w-]+)/', $post->post_content, $videos);
 			if (count($videos) > 0) {
-				// Since the image is on youtube's site, return
-				// from here rather than continuing.
 				$video_id = $videos[1];
-				$image = "//i3.ytimg.com/vi/$video_id/0.jpg";
-				return $image;
+				$iframe_html = "<iframe src='https://www.youtube.com/embed/$video_id?feature=oembed' allowfullscreen='' frameborder='0' width='670' height='372'></iframe>";
+				return $iframe_html;
 			}
 			break;
 		}
@@ -236,9 +234,9 @@ function wgom_get_featured_image() {
 		}
 
 		// This is the WGOM extension part.
-		$image_uri = wgom_get_category_featured_image($categories);
-		if (!empty($image_uri)) {
-			echo '<img class="attachment-post-thumbnail wp-post-image" width="372" height="372" src="' . $image_uri . '" />';
+		$image_html = wgom_get_category_featured_image($categories);
+		if (!empty($image_html)) {
+			echo $image_html;
 		}
 	}
 
