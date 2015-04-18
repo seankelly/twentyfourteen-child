@@ -103,8 +103,13 @@ article.category-wgom-videos > a.post-thumbnail {
     top: 0px;
 }
 
+.full-width .post-thumbnail iframe {
+    display: block;
+    margin: 0px auto;
+}
+
 .post-thumbnail iframe {
-    height: auto;
+    height: 100%;
 }
 
 /*
