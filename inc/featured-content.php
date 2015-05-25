@@ -247,8 +247,26 @@ class Featured_Content {
 		$posts_table = $wpdb->posts;
 		$rel_table = $wpdb->term_relationships;
 		$tax_table = $wpdb->term_taxonomy;
+		$comments_table = $wpdb->comments;
 		$top_cats = implode(', ', $pinned_categories);
 		// Get N most recent posts not in the above categories.
+		$get_active_posts = "
+			SELECT DISTINCT $posts_table.ID AS post_id, MAX(DATE_FORMAT(wgom_comments.comment_date, '%Y-%m-%d %H')) AS last_lte
+			FROM $posts_table
+			LEFT JOIN $comments_table ON $posts_table.ID = $comments_table.comment_post_ID
+			LEFT JOIN $rel_table ON $posts_table.ID = $rel_table.object_ID
+			LEFT JOIN $tax_table ON $rel_table.term_taxonomy_id = $tax_table.term_taxonomy_id
+			WHERE $posts_table.post_status = 'publish'
+			AND $posts_table.post_type = 'post'
+			AND $posts_table.comment_count > 0
+			AND $tax_table.taxonomy = 'category'
+			AND $tax_table.term_id NOT IN ($top_cats)
+			AND $posts_table.ID NOT IN ($cur_featured_ids)
+			GROUP BY $posts_table.ID
+			ORDER BY last_lte DESC, post_id DESC
+			LIMIT $active_post_num
+		";
+                /*
 		$get_active_posts = "
 			SELECT DISTINCT $posts_table.ID, log(comment_count+1) / pow(TIMESTAMPDIFF(HOUR, post_date, now())+12, 2) AS score
 			FROM $posts_table
@@ -262,6 +280,7 @@ class Featured_Content {
 			ORDER BY score DESC
 			LIMIT $active_post_num
 		";
+                */
 
 		$active_res = $wpdb->get_results($get_active_posts, ARRAY_N);
 		$active_row_ids = array();
