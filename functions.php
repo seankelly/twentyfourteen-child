@@ -266,6 +266,9 @@ function wgom_get_featured_overlay() {
 				case 'new music':
 					$image = '<img class="overlay" src="/wp-content/uploads/2014/08/NM.png" />';
 					break;
+				case 'RIP':
+					$image = '<img class="overlay" src="/wp-content/uploads/2015/06/candle.png" />';
+					break;
 				case 'SXSW 2014':
 					$image = '<img class="overlay" src="/wp-content/uploads/2014/03/SXSW.png" />';
 					break;
