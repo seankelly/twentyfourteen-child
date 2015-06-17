@@ -245,40 +245,23 @@ function wgom_get_featured_image() {
 
 function wgom_get_featured_overlay() {
 	// Check for certain tags to overlay another image.
+	$tag_images = array(
+		'Guest DJ'   => '<img class="overlay" width="249" height="71" src="/wp-content/uploads/2013/12/guest-dj.jpg" />',
+		'Theme Week' => '<img class="overlay" src="/wp-content/uploads/2014/06/TmWk.png" />',
+		'e-6 bait'   => '<img class="overlay" src="/wp-content/uploads/2014/01/e-6-bait.jpg" />',
+		'new music'  => '<img class="overlay" src="/wp-content/uploads/2014/08/NM.png" />',
+		'RIP'        => '<img class="overlay" src="/wp-content/uploads/2015/06/candle.png" />',
+		'SXSW 2014'  => '<img class="overlay" src="/wp-content/uploads/2014/03/SXSW.png" />',
+		'SXSW 2015'  => '<img class="overlay" src="/wp-content/uploads/2015/04/SXSW-2015.png" />',
+		'MLB.TV Free Game Of The Day' => '<img class="overlay" src="/wp-content/uploads/2014/08/FGotD.png" />',
+	);
+
 	$the_tags = get_the_tags();
 	$tags = array();
 	if (!empty($the_tags)) {
 		foreach ($the_tags as $t) {
-			$image = '';
-			switch ($t->name) {
-				case 'Guest DJ':
-					$image = '<img class="overlay" width="249" height="71" src="/wp-content/uploads/2013/12/guest-dj.jpg" />';
-					break;
-				case 'Theme Week':
-					$image = '<img class="overlay" src="/wp-content/uploads/2014/06/TmWk.png" />';
-					break;
-				case 'e-6 bait':
-					$image = '<img class="overlay" src="/wp-content/uploads/2014/01/e-6-bait.jpg" />';
-					break;
-				case 'MLB.TV Free Game Of The Day':
-					$image = '<img class="overlay" src="/wp-content/uploads/2014/08/FGotD.png" />';
-					break;
-				case 'new music':
-					$image = '<img class="overlay" src="/wp-content/uploads/2014/08/NM.png" />';
-					break;
-				case 'RIP':
-					$image = '<img class="overlay" src="/wp-content/uploads/2015/06/candle.png" />';
-					break;
-				case 'SXSW 2014':
-					$image = '<img class="overlay" src="/wp-content/uploads/2014/03/SXSW.png" />';
-					break;
-				case 'SXSW 2015':
-					$image = '<img class="overlay" src="/wp-content/uploads/2015/04/SXSW-2015.png" />';
-					break;
-			}
-
-			if (!empty($image)) {
-				echo $image;
+			if (array_key_exists($t->name, $tag_images)) {
+				echo $tag_images[$t->name];
 			}
 		}
 	}
