@@ -247,6 +247,10 @@ article.category-wgom-videos > a.post-thumbnail {
     background-color: #f7f7f7;
 }
 
+.top-videos {
+    margin: 20px auto 0px;
+}
+
 
 /*
  * Decrease font size some.

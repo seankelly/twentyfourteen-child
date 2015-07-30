@@ -307,12 +307,161 @@ function wgom_get_ratings_text() {
 }
 
 function wgom_filter_add_ratings($content) {
-	if (get_post_format() === 'video') {
-		if (function_exists('the_ratings')) {
-			$content .= the_ratings($start_tag = 'span', $custom_id = 0, $display = false);
+	if (get_post_format() === 'video' && function_exists('the_ratings')) {
+		$content .= the_ratings($start_tag = 'span', $custom_id = 0, $display = false);
+	}
+	return $content;
+}
+
+function wgom_filter_show_top_videos($content) {
+	$MINIMUM_VOTES = 5;
+	$NUMBER_VIDEOS = 5;
+	if (get_post_format() === 'video' && function_exists('the_ratings')) {
+		/*
+		 * calculate: W = \frac{Rv + Cm}{v+m}
+		 * m = minimum number of votes to be ranked (user option).
+		 */
+		global $wpdb;
+		$m = $MINIMUM_VOTES;
+		// Get average rating (C).
+		$overall_avg = floatval($wpdb->get_var('SELECT AVG(rating_rating) FROM wgom_ratings'));
+		// Get post ID, total rating for post (R*v), and number of votes (v).
+		// Limit posts to those from the last year. Do a crude filter
+		// by estimating one day is 86,400 seconds and there are 365.24
+		// days in a year.
+		$ratings_since = intval(time() - 86400*365.24);
+		$ratings = $wpdb->get_results("SELECT DISTINCT(rating_postid) AS postid, SUM(rating_rating) AS s, COUNT(rating_rating) AS v FROM wgom_ratings WHERE rating_timestamp > $ratings_since GROUP BY rating_postid", 'ARRAY_N');
+
+		// Keep track of every post ID to pick a random video.
+		$all_posts = array();
+		$ranked_posts = array();
+		// postid | total rating | number of ratings | average rating
+		foreach ($ratings as $post) {
+			$postid = $post[0];
+			$v = intval($post[2]);
+			$all_posts[] = $postid;
+			if ($v < $m) {
+				continue;
+			}
+			$Rv = floatval($post[1]);
+			$W = ($Rv + $overall_avg * $m) / ($v + $m);
+			$ranked_posts[$post[0]] = $W;
+		}
+
+		$num = intval($NUMBER_VIDEOS);
+		arsort($ranked_posts);
+
+		// Get the top $num posts. These will be used for another query to get
+		// the post data.
+		$i = 0;
+		$final_posts = array();
+		foreach ($ranked_posts as $postid => $rank) {
+			if ($i >= $num)
+				break;
+			$final_posts[] = $postid;
+			$i++;
+		}
+
+		// Get those posts and stash in an array. MySQL will return them in a
+		// random order, so need to output them after collecting everything.
+		$query = new \WP_Query(array('post__in' => array_merge($final_posts, array($random_post))));
+		$post_objs = array();
+		while ($query->have_posts()) {
+			$post = $query->next_post();
+			$post_objs[$post->ID] = $post;
+		}
+
+		// Output the top N posts in the right order.
+		$top_video_content = '<div class="top-videos">';
+		foreach ($final_posts as $postid) {
+			$top_video_content .= print_post($post_objs[$postid]);
+		}
+		$top_video_content .= '</div>';
+
+		if (endswith($content, "</footer>")) {
+			$insert_point = strlen($content) - strlen("</footer>");
+			$content = substr_replace($content, $top_video_content, $insert_point, 0);
 		}
 	}
 	return $content;
+}
+
+function endswith($str, $needle) {
+	$str_len = strlen($str);
+	$needle_len = strlen($needle);
+	if ($str_len < $needle_len) {
+		return false;
+	}
+	return substr_compare($str, $needle, $str_len - $needle_len, $needle_len) === 0;
+}
+
+function print_post($post) {
+	if (function_exists('the_ratings')) {
+		$content = '<small>'
+			 . '<a href="'
+			 . get_permalink($post->ID)
+			 . '" rel="bookmark" title="'
+			 . __('Permanent Link to')
+			 . esc_attr(strip_tags($post->post_title))
+			 . '">'
+			 . $post->post_title
+			 . '</a> '
+			 . '<span class="comments-link">'
+			 . wgom_get_comments_link($post, __('Be 1st'), __('1 LTE'), __('% LTEs'))
+			 . '</span>'
+			 ;
+		$content .= the_ratings($start_tag = 'div', $custom_id = $post->ID, $display = FALSE);
+		$content .= '</small>';
+	}
+
+	return $content;
+}
+
+function wgom_get_comments_link($post, $zero, $one, $more) {
+	$link = '<a href="'
+	      . get_comments_link($post->ID)
+	      . '">';
+
+	$comment_count = $post->comment_count;
+	if ($comment_count === 0) {
+		$comments = $zero;
+	}
+	elseif ($comment_count === 1) {
+		$comments = $one;
+	}
+	elseif ($comment_count >= 2) {
+		$comments = preg_replace('/%/', $comment_count, $more);
+	}
+	// Comments closed, not implemented.
+	else {
+		return $more;
+	}
+
+	return $link . $comments . "</a>";
+}
+
+function wgom_video_random_video() {
+	// Brief digression. Pick a random post to include in the query to get
+	// the top posts.
+	// TODO: Fill this in.
+	$all_posts = array();
+	$final_posts = array();
+
+	$today_date = getdate();
+	$today_time = mktime($second = 0, $minute = 0, $hour = 0, $month = $today_date['mon'], $day = $today_date['mday'], $year = $today_date['year']);
+	// Also ensure the random post isn't one of the top rated posts.
+	$i = 0;
+	$limit = 100;
+	$random_post = 0;
+	do {
+		$idx = $today_time % count($all_posts);
+		$random_post = $all_posts[$idx];
+		$today_time++;
+		$i++;
+		if ($i > $limit) {
+			break;
+		}
+	} while (array_key_exists($random_post, $final_posts));
 }
 
 // From http://wordpress.stackexchange.com/questions/105942/embedding-youtube-video-on-comments.
@@ -365,5 +514,6 @@ add_action('wp_footer', 'wgom_footer');
 add_action('wp_head', 'wgom_head');
 add_filter('comment_text', 'wgom_filter_oembed_comments', 0);
 add_filter('the_content', 'wgom_filter_add_ratings');
+add_filter('the_tags', 'wgom_filter_show_top_videos');
 
 require get_stylesheet_directory() . '/inc/featured-content.php';
