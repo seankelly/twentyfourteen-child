@@ -313,7 +313,7 @@ function wgom_filter_add_ratings($content) {
 	return $content;
 }
 
-function wgom_filter_show_top_videos($content) {
+function wgom_filter_show_top_videos() {
 	$MINIMUM_VOTES = 5;
 	$NUMBER_VIDEOS = 5;
 	if (get_post_format() === 'video' && function_exists('the_ratings')) {
@@ -372,18 +372,14 @@ function wgom_filter_show_top_videos($content) {
 		}
 
 		// Output the top N posts in the right order.
-		$top_video_content = '<div class="top-videos">';
+		$top_video_content = "<div class='top-videos'><h6>Top $NUMBER_VIDEOS Videos</h6>";
 		foreach ($final_posts as $postid) {
 			$top_video_content .= print_post($post_objs[$postid]);
 		}
 		$top_video_content .= '</div>';
 
-		if (endswith($content, "</footer>")) {
-			$insert_point = strlen($content) - strlen("</footer>");
-			$content = substr_replace($content, $top_video_content, $insert_point, 0);
-		}
+		echo $top_video_content;
 	}
-	return $content;
 }
 
 function endswith($str, $needle) {
@@ -514,6 +510,8 @@ add_action('wp_footer', 'wgom_footer');
 add_action('wp_head', 'wgom_head');
 add_filter('comment_text', 'wgom_filter_oembed_comments', 0);
 add_filter('the_content', 'wgom_filter_add_ratings');
-add_filter('the_tags', 'wgom_filter_show_top_videos');
+
+add_action('comment_form_after', 'wgom_filter_show_top_videos');
+add_action('comment_form_comments_closed', 'wgom_filter_show_top_videos');
 
 require get_stylesheet_directory() . '/inc/featured-content.php';
