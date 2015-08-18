@@ -254,6 +254,7 @@ function wgom_get_featured_overlay() {
 		'SXSW 2014'  => '<img class="overlay" src="/wp-content/uploads/2014/03/SXSW.png" />',
 		'SXSW 2015'  => '<img class="overlay" src="/wp-content/uploads/2015/04/SXSW-2015.png" />',
 		'MLB.TV Free Game Of The Day' => '<img class="overlay" src="/wp-content/uploads/2014/08/FGotD.png" />',
+		'NSFW' => '<img class="overlay-left" src="/wp-content/uploads/2015/08/NSFW.jpg" />',
 	);
 
 	$the_tags = get_the_tags();
