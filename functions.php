@@ -373,7 +373,7 @@ function wgom_filter_show_top_videos() {
 		}
 
 		// Output the top N posts in the right order.
-		$top_video_content = "<div class='top-videos'><h6>Top $NUMBER_VIDEOS Videos</h6>";
+		$top_video_content = "<div class='top-videos'><h6>Recent Top Videos</h6>";
 		foreach ($final_posts as $postid) {
 			$top_video_content .= print_post($post_objs[$postid]);
 		}
