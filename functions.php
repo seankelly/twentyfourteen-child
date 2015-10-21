@@ -316,7 +316,7 @@ function wgom_filter_add_ratings($content) {
 
 function wgom_filter_show_top_videos() {
 	$MINIMUM_VOTES = 5;
-	$NUMBER_VIDEOS = 5;
+	$NUMBER_VIDEOS = 10;
 	if (get_post_format() === 'video' && function_exists('the_ratings')) {
 		/*
 		 * calculate: W = \frac{Rv + Cm}{v+m}
