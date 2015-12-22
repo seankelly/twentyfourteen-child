@@ -215,7 +215,7 @@ class Featured_Content {
 		}
 
 		$featured_tag_posts = array();
-		// Query for featured posts.
+		// Query for featured tag posts.
 		foreach ($tags as $featured_tag) {
 			$featured_tag_post = get_posts( array(
 				'fields'      => 'ids',
