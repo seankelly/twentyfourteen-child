@@ -201,8 +201,7 @@ class Featured_Content {
 
 		// Query for last Cup of Coffee post (catid = 5) and Video post
 		// (catid = 22).
-		//$pinned_categories = array(5, 22);
-		$pinned_categories = array(5);
+		$pinned_categories = array(5, 22);
 		$category_posts = array();
 		foreach ($pinned_categories as $catid) {
 			$post = get_posts(array(
