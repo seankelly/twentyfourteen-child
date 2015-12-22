@@ -254,6 +254,19 @@ class Featured_Content {
 			SELECT DISTINCT $posts_table.ID AS post_id, MAX(DATE_FORMAT(wgom_comments.comment_date, '%Y-%m-%d %H')) AS last_lte
 			FROM $posts_table
 			LEFT JOIN $comments_table ON $posts_table.ID = $comments_table.comment_post_ID
+			WHERE $posts_table.post_status = 'publish'
+			AND $posts_table.post_type = 'post'
+			AND $posts_table.comment_count > 0
+			AND $posts_table.ID NOT IN ($cur_featured_ids)
+			GROUP BY $posts_table.ID
+			ORDER BY last_lte DESC, post_id DESC
+			LIMIT $active_post_num
+		";
+                /*
+		$get_active_posts = "
+			SELECT DISTINCT $posts_table.ID AS post_id, MAX(DATE_FORMAT(wgom_comments.comment_date, '%Y-%m-%d %H')) AS last_lte
+			FROM $posts_table
+			LEFT JOIN $comments_table ON $posts_table.ID = $comments_table.comment_post_ID
 			LEFT JOIN $rel_table ON $posts_table.ID = $rel_table.object_ID
 			LEFT JOIN $tax_table ON $rel_table.term_taxonomy_id = $tax_table.term_taxonomy_id
 			WHERE $posts_table.post_status = 'publish'
@@ -266,6 +279,7 @@ class Featured_Content {
 			ORDER BY last_lte DESC, post_id DESC
 			LIMIT $active_post_num
 		";
+                */
                 /*
 		$get_active_posts = "
 			SELECT DISTINCT $posts_table.ID, log(comment_count+1) / pow(TIMESTAMPDIFF(HOUR, post_date, now())+12, 2) AS score
