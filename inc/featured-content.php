@@ -201,7 +201,8 @@ class Featured_Content {
 
 		// Query for last Cup of Coffee post (catid = 5) and Video post
 		// (catid = 22).
-		$pinned_categories = array(5, 22);
+		//$pinned_categories = array(5, 22);
+		$pinned_categories = array(5);
 		$category_posts = array();
 		foreach ($pinned_categories as $catid) {
 			$post = get_posts(array(
@@ -249,7 +250,8 @@ class Featured_Content {
 		$tax_table = $wpdb->term_taxonomy;
 		$comments_table = $wpdb->comments;
 		$top_cats = implode(', ', $pinned_categories);
-		// Get N most recent posts not in the above categories.
+		// Get N most recent posts.
+                /*
 		$get_active_posts = "
 			SELECT DISTINCT $posts_table.ID AS post_id, MAX(DATE_FORMAT(wgom_comments.comment_date, '%Y-%m-%d %H')) AS last_lte
 			FROM $posts_table
@@ -262,7 +264,8 @@ class Featured_Content {
 			ORDER BY last_lte DESC, post_id DESC
 			LIMIT $active_post_num
 		";
-                /*
+                */
+		// Get N most recent posts not in the above categories.
 		$get_active_posts = "
 			SELECT DISTINCT $posts_table.ID AS post_id, MAX(DATE_FORMAT(wgom_comments.comment_date, '%Y-%m-%d %H')) AS last_lte
 			FROM $posts_table
@@ -279,7 +282,6 @@ class Featured_Content {
 			ORDER BY last_lte DESC, post_id DESC
 			LIMIT $active_post_num
 		";
-                */
                 /*
 		$get_active_posts = "
 			SELECT DISTINCT $posts_table.ID, log(comment_count+1) / pow(TIMESTAMPDIFF(HOUR, post_date, now())+12, 2) AS score
