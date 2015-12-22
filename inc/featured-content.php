@@ -248,7 +248,9 @@ class Featured_Content {
 		$rel_table = $wpdb->term_relationships;
 		$tax_table = $wpdb->term_taxonomy;
 		$comments_table = $wpdb->comments;
-		$top_cats = implode(', ', $pinned_categories);
+		//$top_cats = implode(', ', $pinned_categories);
+		// Ignore only Cup of Coffee posts in the second row.
+		$top_cats = implode(', ', array(5));
 		// Get N most recent posts.
                 /*
 		$get_active_posts = "
