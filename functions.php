@@ -255,9 +255,9 @@ function wgom_get_featured_overlay() {
 		'SXSW 2015'  => '<img class="overlay" src="/wp-content/uploads/2015/04/SXSW-2015.png" />',
 		'MLB.TV Free Game Of The Day' => '<img class="overlay" src="/wp-content/uploads/2014/08/FGotD.png" />',
 		'NSFW' => '<img class="overlay-left" src="/wp-content/uploads/2015/08/NSFW.jpg" />',
-		'Best Of 2015' => '<img class="overlay-left" src="/wp-content/uploads/2015/12/best-of-fs8.png" />',
-		'Best Of 2016' => '<img class="overlay-left" src="/wp-content/uploads/2015/12/best-of-fs8.png" />',
-		'Best Of 2017' => '<img class="overlay-left" src="/wp-content/uploads/2015/12/best-of-fs8.png" />',
+		'Best of 2015' => '<img class="overlay-left" src="/wp-content/uploads/2015/12/best-of-fs8.png" />',
+		'Best of 2016' => '<img class="overlay-left" src="/wp-content/uploads/2015/12/best-of-fs8.png" />',
+		'Best of 2017' => '<img class="overlay-left" src="/wp-content/uploads/2015/12/best-of-fs8.png" />',
 	);
 
 	$the_tags = get_the_tags();
