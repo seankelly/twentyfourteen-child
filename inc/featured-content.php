@@ -202,6 +202,7 @@ class Featured_Content {
 		// Query for last Cup of Coffee post (catid = 5) and Video post
 		// (catid = 22).
 		$pinned_categories = array(5, 22);
+		$pinned_categories_sql = implode(', ', $pinned_categories);
 		$category_posts = array();
 		foreach ($pinned_categories as $catid) {
 			$post = get_posts(array(
@@ -318,7 +319,7 @@ class Featured_Content {
 			WHERE post_status = 'publish'
 			AND post_type = 'post'
 			AND $tax_table.taxonomy = 'category'
-			AND $tax_table.term_id NOT IN ($pinned_categories)
+			AND $tax_table.term_id NOT IN ($pinned_categories_sql)
 			AND ID NOT IN ($cur_featured_ids)
 			ORDER BY post_date DESC
 			LIMIT 4
