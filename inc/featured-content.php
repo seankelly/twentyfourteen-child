@@ -318,7 +318,7 @@ class Featured_Content {
 			WHERE post_status = 'publish'
 			AND post_type = 'post'
 			AND $tax_table.taxonomy = 'category'
-			AND $tax_table.term_id NOT IN ($top_cats)
+			AND $tax_table.term_id NOT IN ($pinned_categories)
 			AND ID NOT IN ($cur_featured_ids)
 			ORDER BY post_date DESC
 			LIMIT 4
