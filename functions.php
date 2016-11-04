@@ -59,6 +59,29 @@ function twentyfourteen_post_nav() {
  * -----------------------------------------------------------------------------
  */
 
+/*****
+ * WGOM featured posts functions.
+ */
+
+/*
+ * Return the Cup of Coffee, today's video, and two (or more!) featured posts.
+ */
+function wgom_top_featured_posts($number_featured_posts, $skip_categories, $skip_posts) {
+}
+
+/*
+ * Return posts with the most recent activity, but aren't in any of the
+ * categories or posts to skip.
+ */
+function wgom_recently_active_posts($number_active_posts, $skip_categories, $skip_posts) {
+}
+
+/*
+ * Return the latest posts that aren't in any of the categories or posts to skip.
+ */
+function wgom_newest_posts($number_newest_posts, $skip_categories, $skip_posts) {
+}
+
 /**
  * This function exists to link to remote images that I don't want to attach to
  * the post.
