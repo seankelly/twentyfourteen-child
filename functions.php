@@ -84,6 +84,9 @@ function wgom_get_category_featured_image($categories) {
 	}
 }
 
+/*
+ * This function is used in content-featured-post.php.
+ */
 function wgom_get_featured_image() {
 	// This is the usual code that gets executed.
 	if ( has_post_thumbnail() ) {
