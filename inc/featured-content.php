@@ -438,7 +438,7 @@ class Featured_Content {
 	}
 
 	/**
-	 * Hide featured tag from displaying when global terms are queried from the front-end.
+	 * Hide featured tag from displaying when global terms are queried from the front end.
 	 *
 	 * Hooks into the "get_terms" filter.
 	 *
@@ -454,7 +454,7 @@ class Featured_Content {
 	 */
 	public static function hide_featured_term( $terms, $taxonomies, $args ) {
 
-		// This filter is only appropriate on the front-end.
+		// This filter is only appropriate on the front end.
 		if ( is_admin() ) {
 			return $terms;
 		}
@@ -486,7 +486,7 @@ class Featured_Content {
 
 	/**
 	 * Hide featured tag from display when terms associated with a post object
-	 * are queried from the front-end.
+	 * are queried from the front end.
 	 *
 	 * Hooks into the "get_the_terms" filter.
 	 *
@@ -503,7 +503,7 @@ class Featured_Content {
 	 */
 	public static function hide_the_featured_term( $terms, $id, $taxonomy ) {
 
-		// This filter is only appropriate on the front-end.
+		// This filter is only appropriate on the front end.
 		if ( is_admin() ) {
 			return $terms;
 		}
