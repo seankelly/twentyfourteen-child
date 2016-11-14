@@ -190,6 +190,7 @@ function wgom_newest_posts($number_newest_posts, $skip_categories, $skip_post_id
 	// recent post listing.
 	global $wpdb;
 	$cur_featured_ids = implode(',', $skip_post_ids);
+	$skip_category_ids = implode(',', $skip_categories);
 	$posts_table = $wpdb->posts;
 	$rel_table = $wpdb->term_relationships;
 	$tax_table = $wpdb->term_taxonomy;
@@ -201,7 +202,7 @@ function wgom_newest_posts($number_newest_posts, $skip_categories, $skip_post_id
 		WHERE post_status = 'publish'
 		AND post_type = 'post'
 		AND $tax_table.taxonomy = 'category'
-		AND $tax_table.term_id NOT IN ($skip_categories)
+		AND $tax_table.term_id NOT IN ($skip_category_ids)
 		AND ID NOT IN ($cur_featured_ids)
 		ORDER BY post_date DESC
 		LIMIT $number_newest_posts
