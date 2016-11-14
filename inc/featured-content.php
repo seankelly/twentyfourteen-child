@@ -175,163 +175,33 @@ class Featured_Content {
 		// Get array of cached results if they exist.
 		$featured_ids = get_transient( 'featured_content_ids' );
 
-		if ( false === $featured_ids ) {
+		//if ( false === $featured_ids ) {
 			$featured_ids = self::wgom_featured_post_ids();
-		}
+		//}
 
 		// Ensure correct format before return.
 		return array_map( 'absint', $featured_ids );
 	}
 
 	public static function wgom_featured_post_ids() {
-		$settings = self::get_setting();
-
-		$active_post_num = 4;
-		$tag_names = array($settings['tag-name'], 'WGOM ' . $settings['tag-name']);
-		$tags = array();
-		// Return sticky post ids if no tag name is set.
-		foreach ($tag_names as $term_name) {
-			$term = get_term_by('name', $term_name, 'post_tag');
-			if ($term) {
-				$tags[] = $term->term_id;
-			} else {
-				$active_post_num++;
-			}
-		}
-
 		// Query for last Cup of Coffee post (catid = 5) and Video post
 		// (catid = 22).
 		$pinned_categories = array(5, 22);
-		$pinned_categories_sql = implode(', ', $pinned_categories);
-		$category_posts = array();
-		foreach ($pinned_categories as $catid) {
-			$post = get_posts(array(
-				'fields'      => 'ids',
-				'numberposts' => 1,
-				'category'    => $catid,
-				'orderby'     => 'post_date',
-				'order'       => 'DESC',
-			));
-			$category_posts[] = $post[0];
-		}
+		$settings = self::get_setting();
+		$tag_names = array($settings['tag-name'], 'WGOM ' . $settings['tag-name']);
+		$skip_categories = array(5);
+		$active_post_num = 4;
+		$newest_post_num = 4;
+		$total_posts = 12;
 
-		$featured_tag_posts = array();
-		// Query for featured tag posts.
-		foreach ($tags as $featured_tag) {
-			$featured_tag_post = get_posts( array(
-				'fields'      => 'ids',
-				'numberposts' => 1,
-				'orderby'     => 'post_date',
-				'order'       => 'DESC',
-				'tax_query'   => array(
-					array(
-						'field'    => 'term_id',
-						'taxonomy' => 'post_tag',
-						'terms'    => $featured_tag,
-					),
-				),
-			) );
+		$row_one = wgom_top_featured_posts($pinned_categories, $tag_names);
+		$skip_post_ids = $row_one;
+		$row_two = wgom_recently_active_posts($active_post_num, $skip_categories, $skip_post_ids);
+		$skip_post_ids = array_merge($skip_post_ids, $row_two);
+		$newest_post_num = $total_posts - count($skip_post_ids);
+		$row_three = wgom_newest_posts($newest_post_num, $skip_categories, $skip_post_ids);
 
-			if (count($featured_tag_post) > 0) {
-				$featured_tag_posts[] = $featured_tag_post[0];
-			}
-			else {
-				$active_post_num++;
-			}
-		}
-
-		$pinned_row_ids = array_merge($category_posts, $featured_tag_posts);
-
-		// Second row: "Active" posts.
-		global $wpdb;
-		$cur_featured_ids = implode(',', $pinned_row_ids);
-		$posts_table = $wpdb->posts;
-		$rel_table = $wpdb->term_relationships;
-		$tax_table = $wpdb->term_taxonomy;
-		$comments_table = $wpdb->comments;
-		//$top_cats = implode(', ', $pinned_categories);
-		// Ignore only Cup of Coffee posts in the second row.
-		$top_cats = implode(', ', array(5));
-		// Get N most recent posts.
-                /*
-		$get_active_posts = "
-			SELECT DISTINCT $posts_table.ID AS post_id, MAX(DATE_FORMAT(wgom_comments.comment_date, '%Y-%m-%d %H')) AS last_lte
-			FROM $posts_table
-			LEFT JOIN $comments_table ON $posts_table.ID = $comments_table.comment_post_ID
-			WHERE $posts_table.post_status = 'publish'
-			AND $posts_table.post_type = 'post'
-			AND $posts_table.comment_count > 0
-			AND $posts_table.ID NOT IN ($cur_featured_ids)
-			GROUP BY $posts_table.ID
-			ORDER BY last_lte DESC, post_id DESC
-			LIMIT $active_post_num
-		";
-                */
-		// Get N most recent posts not in the above categories.
-		$get_active_posts = "
-			SELECT DISTINCT $posts_table.ID AS post_id, MAX(DATE_FORMAT(wgom_comments.comment_date, '%Y-%m-%d %H')) AS last_lte
-			FROM $posts_table
-			LEFT JOIN $comments_table ON $posts_table.ID = $comments_table.comment_post_ID
-			LEFT JOIN $rel_table ON $posts_table.ID = $rel_table.object_ID
-			LEFT JOIN $tax_table ON $rel_table.term_taxonomy_id = $tax_table.term_taxonomy_id
-			WHERE $posts_table.post_status = 'publish'
-			AND $posts_table.post_type = 'post'
-			AND $posts_table.comment_count > 0
-			AND $tax_table.taxonomy = 'category'
-			AND $tax_table.term_id NOT IN ($top_cats)
-			AND $posts_table.ID NOT IN ($cur_featured_ids)
-			GROUP BY $posts_table.ID
-			ORDER BY last_lte DESC, post_id DESC
-			LIMIT $active_post_num
-		";
-                /*
-		$get_active_posts = "
-			SELECT DISTINCT $posts_table.ID, log(comment_count+1) / pow(TIMESTAMPDIFF(HOUR, post_date, now())+12, 2) AS score
-			FROM $posts_table
-			LEFT JOIN $rel_table ON $posts_table.ID = $rel_table.object_ID
-			LEFT JOIN $tax_table ON $rel_table.term_taxonomy_id = $tax_table.term_taxonomy_id
-			WHERE post_status = 'publish'
-			AND post_type = 'post'
-			AND $tax_table.taxonomy = 'category'
-			AND $tax_table.term_id NOT IN ($top_cats)
-			AND ID NOT IN ($cur_featured_ids)
-			ORDER BY score DESC
-			LIMIT $active_post_num
-		";
-                */
-
-		$active_res = $wpdb->get_results($get_active_posts, ARRAY_N);
-		$active_row_ids = array();
-		foreach ($active_res as $row) {
-			$active_row_ids[] = $row[0];
-		}
-
-		// Third row: 4 most recent posts not already selected for
-		// inclusion. Merge posts so far to remove them from the most
-		// recent post listing.
-		$featured_ids = array_merge($pinned_row_ids, $active_row_ids);
-		$cur_featured_ids = implode(',', $featured_ids);
-		$get_recent_posts = "
-			SELECT DISTINCT $posts_table.ID
-			FROM $posts_table
-			LEFT JOIN $rel_table ON $posts_table.ID = $rel_table.object_ID
-			LEFT JOIN $tax_table ON $rel_table.term_taxonomy_id = $tax_table.term_taxonomy_id
-			WHERE post_status = 'publish'
-			AND post_type = 'post'
-			AND $tax_table.taxonomy = 'category'
-			AND $tax_table.term_id NOT IN ($pinned_categories_sql)
-			AND ID NOT IN ($cur_featured_ids)
-			ORDER BY post_date DESC
-			LIMIT 4
-		";
-
-		$recent_res = $wpdb->get_results($get_recent_posts, ARRAY_N);
-		$recent_row_ids = array();
-		foreach ($recent_res as $row) {
-			$recent_row_ids[] = $row[0];
-		}
-
-		$featured_ids = array_merge($featured_ids, $recent_row_ids);
+		$featured_ids = array_merge($row_one, $row_two, $row_three);
 		set_transient('featured_content_ids', $featured_ids);
 		return $featured_ids;
 	}
