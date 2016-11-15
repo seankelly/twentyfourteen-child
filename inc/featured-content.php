@@ -175,9 +175,9 @@ class Featured_Content {
 		// Get array of cached results if they exist.
 		$featured_ids = get_transient( 'featured_content_ids' );
 
-		//if ( false === $featured_ids ) {
+		if ( false === $featured_ids ) {
 			$featured_ids = self::wgom_featured_post_ids();
-		//}
+		}
 
 		// Ensure correct format before return.
 		return array_map( 'absint', $featured_ids );
