@@ -188,7 +188,10 @@ class Featured_Content {
 		// (catid = 22).
 		$pinned_categories = array(5, 22);
 		$settings = self::get_setting();
-		$tag_names = array('WGOM ' . $settings['tag-name'], $settings['tag-name']);
+		$tag_names = array(
+			'WGOM ' . $settings['tag-name'] => 1,
+			$settings['tag-name'] => 1
+		);
 		$skip_categories = array(5);
 		$active_post_num = 4;
 		$newest_post_num = 4;

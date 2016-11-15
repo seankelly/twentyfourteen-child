@@ -89,19 +89,19 @@ function wgom_top_featured_posts($pinned_categories, $featured_tags) {
 	// Map the tag names to IDs. The get_posts function needs the tag ID.
 	$featured_tag_ids = array();
 	// Return sticky post ids if no tag name is set.
-	foreach ($featured_tags as $tag_name) {
+	foreach ($featured_tags as $tag_name => $num_posts) {
 		$term = get_term_by('name', $tag_name, 'post_tag');
 		if ($term) {
-			$featured_tag_ids[] = $term->term_id;
+			$featured_tag_ids[] = array($term->term_id => $num_posts);
 		}
 	}
 
 	$featured_tag_posts = array();
 	// Query for featured tag posts.
-	foreach ($featured_tag_ids as $featured_tag) {
+	foreach ($featured_tag_ids as $featured_tag => $num_posts) {
 		$featured_tag_post = get_posts( array(
 			'fields'      => 'ids',
-			'numberposts' => 1,
+			'numberposts' => $num_posts,
 			'orderby'     => 'post_date',
 			'order'       => 'DESC',
 			'tax_query'   => array(
