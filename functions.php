@@ -92,7 +92,7 @@ function wgom_top_featured_posts($pinned_categories, $featured_tags) {
 	foreach ($featured_tags as $tag_name => $num_posts) {
 		$term = get_term_by('name', $tag_name, 'post_tag');
 		if ($term) {
-			$featured_tag_ids[] = array($term->term_id => $num_posts);
+			$featured_tag_ids[$term->term_id] = $num_posts;
 		}
 	}
 
