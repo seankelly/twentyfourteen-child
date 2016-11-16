@@ -99,7 +99,7 @@ function wgom_top_featured_posts($pinned_categories, $featured_tags) {
 	$featured_tag_posts = array();
 	// Query for featured tag posts.
 	foreach ($featured_tag_ids as $featured_tag => $num_posts) {
-		$featured_tag_post = get_posts( array(
+		$tag_posts = get_posts( array(
 			'fields'      => 'ids',
 			'numberposts' => $num_posts,
 			'orderby'     => 'post_date',
@@ -113,9 +113,7 @@ function wgom_top_featured_posts($pinned_categories, $featured_tags) {
 			),
 		) );
 
-		if (count($featured_tag_post) > 0) {
-			$featured_tag_posts[] = $featured_tag_post[0];
-		}
+		$featured_tag_posts = array_merge($featured_tag_posts, $tag_posts);
 	}
 
 	$pinned_row_ids = array_merge($category_posts, $featured_tag_posts);
