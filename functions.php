@@ -247,6 +247,21 @@ function wgom_get_featured_image() {
 	wgom_get_featured_overlay();
 }
 
+// Get the URL for the post thumbnail. Adapted from get_the_post_thumbnail function.
+function wgom_post_thumbnail_url() {
+	$post = get_post(null);
+	$post_thumbnail_id = get_post_thumbnail_id($post);
+	$size = apply_filters('post_thumbnail_size', 'post-thumbnail', $post->ID);
+	if ($post_thumbnail_id) {
+		$image_src = wp_get_attachment_image_src($post_thumbnail_id, $size, false);
+		if ($image_src) {
+			$image_url = $image_src[0];
+			return $image_url;
+		}
+	}
+	return "";
+}
+
 function wgom_get_featured_overlay() {
 	// Check for certain tags to overlay another image.
 	$tag_images = array(
@@ -479,9 +494,30 @@ function wgom_filter_oembed_comments($comment) {
 }
 
 function wgom_head() {
+	$permalink = get_permalink();
 ?>
 	<link rel="icon" href="//wgom.org/favicon.ico" />
+	<meta property="og:title" content="<?php wp_title('|', true, 'right'); ?>" />
+	<meta property="og:type" content="website" />
 <?php
+	if (is_front_page()) {
+?>
+		<meta property="og:url" content="<?php echo esc_url(home_url('/')); ?>" />
+		<meta property="og:description" content="The World's Greatest Online Magazine" />
+		<meta property="og:image" content="https://wgom.org/wp-content/uploads/2013/12/WGOM.png" />
+<?php
+	}
+	else {
+?>
+		<meta property="og:url" content="<?php echo $permalink; ?>" />
+		<meta property="og:description" content="<?php the_excerpt(); ?>" />
+<?php
+		if (has_post_thumbnail()) {
+			$thumbnail_url = wgom_post_thumbnail_url();
+			?><meta property="og:image" content="<?php echo $thumbnail_url; ?>" />
+<?php
+		}
+	}
 }
 
 function wgom_footer_timer() {
