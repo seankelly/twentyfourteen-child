@@ -165,6 +165,12 @@ article.category-wgom-videos > a.post-thumbnail {
 /*
  * Additions to the theme.
  */
+
+/* Make the featured image scale to fit the smaller box on the front page. */
+img.size-full, img.size-large, .wp-post-image, .post-thumbnail img {
+    max-height: 100%;
+}
+
 .featured-content img.overlay {
     position: absolute;
     top: auto;
