@@ -255,15 +255,31 @@ function wgom_get_featured_image() {
 
 // Get the URL for the post thumbnail. Adapted from get_the_post_thumbnail function.
 function wgom_post_thumbnail_url() {
-	$post = get_post(null);
-	$post_thumbnail_id = get_post_thumbnail_id($post);
-	$size = apply_filters('post_thumbnail_size', 'post-thumbnail', $post->ID);
-	if ($post_thumbnail_id) {
-		$image_src = wp_get_attachment_image_src($post_thumbnail_id, $size, false);
-		if ($image_src) {
-			$image_url = $image_src[0];
-			return $image_url;
+	if (has_post_thumbnail()) {
+		$post = get_post(null);
+		$post_thumbnail_id = get_post_thumbnail_id($post);
+		$size = apply_filters('post_thumbnail_size', 'post-thumbnail', $post->ID);
+		if ($post_thumbnail_id) {
+			$image_src = wp_get_attachment_image_src($post_thumbnail_id, $size, false);
+			if ($image_src) {
+				$image_url = $image_src[0];
+				return $image_url;
+			}
 		}
+	}
+	else {
+		$all_categories = get_the_category();
+		$categories = array();
+		foreach ($all_categories as $cat) {
+			$categories[] = intval($cat->term_id);
+		}
+
+		// This is the WGOM extension part.
+		$image_src = wgom_get_category_featured_image($categories, true);
+		if (!empty($image_src)) {
+			return $image_src;
+		}
+	}
 	}
 	return "";
 }
