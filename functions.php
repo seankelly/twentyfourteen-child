@@ -280,7 +280,6 @@ function wgom_post_thumbnail_url() {
 			return $image_src;
 		}
 	}
-	}
 	return "";
 }
 
