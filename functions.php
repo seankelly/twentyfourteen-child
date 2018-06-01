@@ -530,8 +530,8 @@ function wgom_head() {
 		<meta property="og:url" content="<?php echo $permalink; ?>" />
 		<meta property="og:description" content="<?php the_excerpt(); ?>" />
 <?php
-		if (has_post_thumbnail()) {
-			$thumbnail_url = wgom_post_thumbnail_url();
+		$thumbnail_url = wgom_post_thumbnail_url();
+		if (!empty($thumbnail_url)) {
 			?><meta property="og:image" content="<?php echo $thumbnail_url; ?>" />
 <?php
 		}
