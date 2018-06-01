@@ -215,7 +215,7 @@ function wgom_get_category_featured_image($categories, $video_iframe=true) {
 					return $iframe_html;
 				}
 				else {
-					$image = "https://i3.ytimg.com/vi/$video_id/0.jpg";
+					$image = "https://i.ytimg.com/vi/$video_id/sddefault.jpg";
 					return $image;
 				}
 			}
