@@ -200,7 +200,7 @@ function wgom_newest_posts($number_newest_posts, $skip_categories, $skip_post_id
  * @return string Image URL.
  */
 
-function wgom_get_category_featured_image($categories) {
+function wgom_get_category_featured_image($categories, $image=false) {
 	foreach ($categories as $c) {
 		$post = get_post();
 		if (intval($c) === 22) {
@@ -211,8 +211,14 @@ function wgom_get_category_featured_image($categories) {
 			preg_match('/(?:youtu.be\/|v=)([\w-]+)/', $post->post_content, $videos);
 			if (count($videos) > 0) {
 				$video_id = $videos[1];
-				$iframe_html = "<iframe src='https://www.youtube.com/embed/$video_id?feature=oembed' allowfullscreen='' frameborder='0' width='670' height='372'></iframe>";
-				return $iframe_html;
+				if (!$image) {
+					$iframe_html = "<iframe src='https://www.youtube.com/embed/$video_id?feature=oembed' allowfullscreen='' frameborder='0' width='670' height='372'></iframe>";
+					return $iframe_html;
+				}
+				else {
+					$image = "https://i3.ytimg.com/vi/$video_id/0.jpg";
+					return $image;
+				}
 			}
 			break;
 		}
