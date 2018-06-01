@@ -200,18 +200,17 @@ function wgom_newest_posts($number_newest_posts, $skip_categories, $skip_post_id
  * @return string Image URL.
  */
 
-function wgom_get_category_featured_image($categories, $image=false) {
+function wgom_get_category_featured_image($categories, $video_iframe=true) {
 	foreach ($categories as $c) {
 		$post = get_post();
 		if (intval($c) === 22) {
 			// A Video post. Hunt for the first URL matching
 			// youtube's v=CODE. Grab the code and use that to get
 			// the 0.jpg.
-			$image = '';
 			preg_match('/(?:youtu.be\/|v=)([\w-]+)/', $post->post_content, $videos);
 			if (count($videos) > 0) {
 				$video_id = $videos[1];
-				if (!$image) {
+				if ($video_iframe) {
 					$iframe_html = "<iframe src='https://www.youtube.com/embed/$video_id?feature=oembed' allowfullscreen='' frameborder='0' width='670' height='372'></iframe>";
 					return $iframe_html;
 				}
@@ -275,10 +274,8 @@ function wgom_post_thumbnail_url() {
 		}
 
 		// This is the WGOM extension part.
-		$image_src = wgom_get_category_featured_image($categories, true);
-		if (!empty($image_src)) {
-			return $image_src;
-		}
+		$image_src = wgom_get_category_featured_image($categories, false);
+		return $image_src;
 	}
 	return "";
 }
