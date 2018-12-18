@@ -293,9 +293,7 @@ function wgom_get_featured_overlay() {
 		'SXSW 2015'  => '<img class="overlay" src="/wp-content/uploads/2015/04/SXSW-2015.png" />',
 		'MLB.TV Free Game Of The Day' => '<img class="overlay" src="/wp-content/uploads/2018/07/MLBFGotD.png" />',
 		'NSFW' => '<img class="overlay-left" src="/wp-content/uploads/2015/08/NSFW.jpg" />',
-		'Best of 2015' => '<img class="overlay-left" src="/wp-content/uploads/2015/12/best-of-fs8.png" />',
-		'Best of 2016' => '<img class="overlay-left" src="/wp-content/uploads/2015/12/best-of-fs8.png" />',
-		'Best of 2017' => '<img class="overlay-left" src="/wp-content/uploads/2015/12/best-of-fs8.png" />',
+		'Best of' => '<img class="overlay-left" src="/wp-content/uploads/2015/12/best-of-fs8.png" />',
 	);
 
 	$the_tags = get_the_tags();
