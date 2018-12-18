@@ -286,6 +286,7 @@ function wgom_get_featured_overlay() {
 		'Guest DJ'   => '<img class="overlay" width="249" height="71" src="/wp-content/uploads/2013/12/guest-dj.jpg" />',
 		'Theme Week' => '<img class="overlay" src="/wp-content/uploads/2014/06/TmWk.png" />',
 		'e-6 bait'   => '<img class="overlay" src="/wp-content/uploads/2014/01/e-6-bait.jpg" />',
+		'facebook watch game' => '<img class="overlay" src="/wp-content/uploads/2018/12/fb-watch-game.png" />',
 		'new music'  => '<img class="overlay" src="/wp-content/uploads/2018/07/NewMusic.png" />',
 		'RIP'        => '<img class="overlay" src="/wp-content/uploads/2015/06/candle.png" />',
 		'SXSW 2014'  => '<img class="overlay" src="/wp-content/uploads/2014/03/SXSW.png" />',
