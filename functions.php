@@ -525,9 +525,10 @@ function wgom_head() {
 <?php
 	}
 	else {
+		$excerpt = strip_tags(get_the_excerpt());
 ?>
 		<meta property="og:url" content="<?php echo $permalink; ?>" />
-		<meta property="og:description" content="<?php the_excerpt(); ?>" />
+		<meta property="og:description" content="<?php echo $excerpt; ?>" />
 <?php
 		$thumbnail_url = wgom_post_thumbnail_url();
 		if (!empty($thumbnail_url)) {
