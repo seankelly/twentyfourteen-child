@@ -470,7 +470,7 @@ function wgom_get_comments_link($post, $zero, $one, $more) {
 	}
 	// Comments closed, not implemented.
 	else {
-		return $more;
+		$comments = preg_replace('/%/', $comment_count, $more);
 	}
 
 	return $link . $comments . "</a>";
