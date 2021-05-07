@@ -4,6 +4,32 @@ function enqueue_parent_theme_style() {
 	wp_enqueue_style('parent-style', get_template_directory_uri() . '/style.css');
 }
 
+/*
+ * Things to update within WordPress.
+ */
+function wgom_init() {
+	global $allowedposttags;
+	global $allowedtags;
+
+	// Add the "title" attribute as an acceptable attribute for the img tag
+	// in posts.
+	$wgom_allowedposttags = array(
+		'img' => array(
+			'title' => true,
+		),
+	);
+	// Add the img tag with the "src" and "title" attributes as valid
+	// attributes for comments.
+	$wgom_allowedtags = array(
+                'img' => array(
+                        'src' => true,
+                        'title' => true,
+                ),
+	);
+
+	$allowedposttags = array_merge_recursive($allowedposttags, $wgom_allowedposttags);
+	$allowedtags = array_merge($allowedtags, $wgom_allowedtags);
+}
 
 function wgom_twentyfourteen_setup() {
 	// Override the number of posts to return for Featured_Content.
@@ -514,6 +540,7 @@ function wgom_footer_timer() {
 <?php
 }
 
+add_action('init', 'wgom_init', 11);
 add_action('after_setup_theme', 'wgom_twentyfourteen_setup', 11);
 add_action('twentyfourteen_credits', 'wgom_footer_timer');
 add_action('wp_enqueue_scripts', 'enqueue_parent_theme_style');
