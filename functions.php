@@ -422,15 +422,6 @@ function wgom_filter_show_top_videos() {
 	}
 }
 
-function endswith($str, $needle) {
-	$str_len = strlen($str);
-	$needle_len = strlen($needle);
-	if ($str_len < $needle_len) {
-		return false;
-	}
-	return substr_compare($str, $needle, $str_len - $needle_len, $needle_len) === 0;
-}
-
 function print_post($post) {
 	if (function_exists('the_ratings')) {
 		$content = '<small>'
@@ -474,30 +465,6 @@ function wgom_get_comments_link($post, $zero, $one, $more) {
 	}
 
 	return $link . $comments . "</a>";
-}
-
-function wgom_video_random_video() {
-	// Brief digression. Pick a random post to include in the query to get
-	// the top posts.
-	// TODO: Fill this in.
-	$all_posts = array();
-	$final_posts = array();
-
-	$today_date = getdate();
-	$today_time = mktime($second = 0, $minute = 0, $hour = 0, $month = $today_date['mon'], $day = $today_date['mday'], $year = $today_date['year']);
-	// Also ensure the random post isn't one of the top rated posts.
-	$i = 0;
-	$limit = 100;
-	$random_post = 0;
-	do {
-		$idx = $today_time % count($all_posts);
-		$random_post = $all_posts[$idx];
-		$today_time++;
-		$i++;
-		if ($i > $limit) {
-			break;
-		}
-	} while (array_key_exists($random_post, $final_posts));
 }
 
 // From http://wordpress.stackexchange.com/questions/105942/embedding-youtube-video-on-comments.
