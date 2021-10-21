@@ -506,7 +506,7 @@ function wgom_filter_oembed_comments($comment) {
 function wgom_head() {
 	$permalink = get_permalink();
 ?>
-	<link rel="icon" href="//wgom.org/favicon.ico" />
+	<link rel="icon" href="//wgom.org/wp-content/uploads/2021/10/favicon.png" />
 	<meta property="og:title" content="<?php wp_title('|', true, 'right'); ?>" />
 	<meta property="og:type" content="website" />
 <?php
