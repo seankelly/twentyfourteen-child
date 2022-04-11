@@ -373,7 +373,16 @@ function wgom_get_ratings_text() {
 }
 
 function wgom_filter_add_ratings($content) {
-	if (get_post_format() === 'video' && function_exists('the_ratings')) {
+	$all_categories = get_the_category();
+	$valid_category = false;
+	foreach ($all_categories as $cat) {
+		if (intval($cat->term_id) === 22) {
+			$valid_category = true;
+			break;
+		}
+	}
+
+	if ($valid_category === true && function_exists('the_ratings')) {
 		$content .= the_ratings($start_tag = 'span', $custom_id = 0, $display = false);
 	}
 	return $content;
