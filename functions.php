@@ -227,8 +227,8 @@ function wgom_newest_posts($number_newest_posts, $skip_categories, $skip_post_id
  */
 
 function wgom_get_category_featured_image($categories, $video_iframe=true) {
+	$post = get_post();
 	foreach ($categories as $c) {
-		$post = get_post();
 		if (intval($c) === 22) {
 			// A Video post. Hunt for the first URL matching
 			// youtube's v=CODE. Grab the code and use that to get
