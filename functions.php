@@ -226,26 +226,23 @@ function wgom_newest_posts($number_newest_posts, $skip_categories, $skip_post_id
  * @return string Image URL.
  */
 
-function wgom_get_category_featured_image($categories, $video_iframe=true) {
-	$post = get_post();
-	foreach ($categories as $c) {
-		if (intval($c) === 22) {
-			// A Video post. Hunt for the first URL matching
-			// youtube's v=CODE. Grab the code and use that to get
-			// the 0.jpg.
-			preg_match('/(?:youtu.be\/|v=)([\w-]+)/', $post->post_content, $videos);
-			if (count($videos) > 0) {
-				$video_id = $videos[1];
-				if ($video_iframe) {
-					$iframe_html = "<iframe src='https://www.youtube.com/embed/$video_id?feature=oembed' allowfullscreen='' frameborder='0' width='670' height='372'></iframe>";
-					return $iframe_html;
-				}
-				else {
-					$image = "https://i.ytimg.com/vi/$video_id/sddefault.jpg";
-					return $image;
-				}
+function wgom_video_post_featured_image($video_iframe=true, $post=null) {
+	$post = get_post($post);
+	if (get_post_format($post) === 'video') {
+		// A Video post. Hunt for the first URL matching
+		// youtube's v=CODE. Grab the code and use that to get
+		// the 0.jpg.
+		preg_match('/(?:youtu.be\/|v=)([\w-]+)/', $post->post_content, $videos);
+		if (count($videos) > 0) {
+			$video_id = $videos[1];
+			if ($video_iframe) {
+				$iframe_html = "<iframe src='https://www.youtube.com/embed/$video_id?feature=oembed' allowfullscreen='' frameborder='0' width='670' height='372'></iframe>";
+				return $iframe_html;
 			}
-			break;
+			else {
+				$image = "https://i.ytimg.com/vi/$video_id/sddefault.jpg";
+				return $image;
+			}
 		}
 	}
 }
@@ -262,14 +259,8 @@ function wgom_get_featured_image() {
 			the_post_thumbnail( 'twentyfourteen-full-width' );
 	}
 	else {
-		$all_categories = get_the_category();
-		$categories = array();
-		foreach ($all_categories as $cat) {
-			$categories[] = intval($cat->term_id);
-		}
-
 		// This is the WGOM extension part.
-		$image_html = wgom_get_category_featured_image($categories);
+		$image_html = wgom_video_post_featured_image();
 		if (!empty($image_html)) {
 			echo $image_html;
 		}
@@ -293,14 +284,8 @@ function wgom_post_thumbnail_url() {
 		}
 	}
 	else {
-		$all_categories = get_the_category();
-		$categories = array();
-		foreach ($all_categories as $cat) {
-			$categories[] = intval($cat->term_id);
-		}
-
 		// This is the WGOM extension part.
-		$image_src = wgom_get_category_featured_image($categories, false);
+		$image_src = wgom_video_post_featured_image(false);
 		return $image_src;
 	}
 	return "";
