@@ -424,7 +424,7 @@ function wgom_filter_show_top_videos() {
 
 		// Get those posts and stash in an array. MySQL will return them in a
 		// random order, so need to output them after collecting everything.
-		$query = new \WP_Query(array('post__in' => array_merge($final_posts, array($random_post))));
+		$query = new \WP_Query(array('post__in' => $final_posts));
 		$post_objs = array();
 		while ($query->have_posts()) {
 			$post = $query->next_post();
