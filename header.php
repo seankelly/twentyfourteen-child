@@ -48,7 +48,7 @@
 				<a href="#search-container" class="screen-reader-text"><?php _e( 'Search', 'twentyfourteen' ); ?></a>
 			</div>
 
-			<a href="#get-recent-comments">
+			<a href="#simple-recent-comments-2">
 				<div class="comments-jump"></div>
 			</a>
 
