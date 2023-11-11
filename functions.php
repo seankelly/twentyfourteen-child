@@ -497,6 +497,13 @@ function wgom_filter_oembed_comments($comment) {
 	return $comment;
 }
 
+function wgom_curl_force_youtube_ipv4($handle, $request, $url) {
+        // Force resolving YouTube URLs using IPv4 because IPv6 connections are blocked.
+        if (strpos($url, 'www.youtube.com') !== false) {
+                curl_setopt($handle, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        }
+}
+
 function wgom_head() {
 	$permalink = get_permalink();
 ?>
@@ -544,5 +551,6 @@ add_filter('the_content', 'wgom_filter_add_ratings');
 
 add_action('comment_form_after', 'wgom_filter_show_top_videos');
 add_action('comment_form_comments_closed', 'wgom_filter_show_top_videos');
+\add_action('http_api_curl', 'wgom_curl_force_youtube_ipv4', 10, 3);
 
 require get_stylesheet_directory() . '/inc/featured-content.php';
