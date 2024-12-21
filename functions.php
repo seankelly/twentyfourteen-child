@@ -374,7 +374,7 @@ function wgom_filter_add_ratings($content) {
 }
 
 function wgom_filter_show_top_videos() {
-	$MINIMUM_VOTES = 5;
+	$MINIMUM_VOTES = 2;
 	$NUMBER_VIDEOS = 10;
 	if (get_post_format() === 'video' && function_exists('the_ratings')) {
 		/*
